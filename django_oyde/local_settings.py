@@ -11,7 +11,7 @@ ALLOWED_HOSTS = []
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'oyden',
+        'NAME': 'django_oyden',
         'USER': 'userdb',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
