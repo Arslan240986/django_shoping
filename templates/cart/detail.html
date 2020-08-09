@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load i18n %}
+    {% block title %}
+        Ваша корзина
+    {% endblock %}
+{% block content %}
+<div class="container">
+    <div id="content">
+        <div class="print_order">
+            <div class="btn contionue_shoping_btn">
+                <a href="#" onclick="window.print();">
+                    <i class="fa fa-print" aria-hidden="false">
+                        <span class="trans_ru">Распечатать</span>
+                        <span class="trans_tr">Chap et</span>
+                    </i>
+                </a>
+            </div>
+        </div>
+        <h2 style="margin-bottom: 40px;">
+            <span class="trans_ru">Моя корзине</span>
+            <span class="trans_tr">Menin sebetim</span>
+        </h2>
+        <div class="column">
+            <span class="in_cart_text">
+                <span class="trans_ru">В корзине</span>
+                <span class="trans_tr">Sebetde</span>
+            </span>
+
+            <div class="btn clear_cart">
+                <a href="{% url 'cart:cart_clear' %}">
+                    <i class="fa fa-remove fa-1x">
+                        <span class="clear_icon trans_ru"> Очистить </span>
+                        <span class="clear_icon trans_tr">Arassala</span>
+                    </i>
+                </a>
+            </div>
+        </div>
+
+        <div class="table_cart">
+            <div class="row header_tr">
+                <div class="tb_item_image text-center">
+                    <span class="trans_ru">Фото</span>
+                    <span class="trans_tr">Suraty</span>
+                </div>
+                <div class="tb_item_name text-center">
+                    <span class="trans_ru">Наимен</span>
+                    <span class="trans_tr">Ady</span>
+                </div>
+                <div class="tb_item_quantity text-center">
+                    <span class="trans_ru">Количество</span>
+                    <span class="trans_tr">Mukdary</span>
+                </div>
+                <div class="tb_item_price text-center">
+                    <span class="trans_ru">Цена</span>
+                    <span class="trans_tr">Bahasy</span>
+                </div>
+                <div class="tb_item_sum text-center">
+                    <span class="trans_ru">Общая.Ц</span>
+                    <span class="trans_tr">Umumy.B</span>
+                </div>
+                <div class="tb_item_remove_btn text-center">
+                    <span class="trans_ru">Удалить</span>
+                    <span class="trans_tr">Ayyrmak</span>
+
+                </div>
+            </div>
+
+
+            {% if cart %}
+            {% for item in cart %}
+            {% with product=item.product %}
+            <div class="row body_tr">
+                <div class="text-center tb_item_image tb_item_image_container">
+                    <img class="tb_item_image_self" src="{% if product.image %}{{ product.image.url }}
+                        {% else %}{% static 'img/avatar.png' %}{% endif %}">
+                </div>
+                <div class="text-center tb_item_name">{{ product.name }}</div>
+
+                <div class="tb_item_quantity">
+                    <form class="tb_item_quantity_form" action="{% url 'cart:cart_add' product.id %}" method="post">
+                        {% csrf_token %}
+                        {{ item.update_quantity_form.quantity }}
+                        {{ item.update_quantity_form.update }}
+                        <input type="submit" value="Обновить">
+                    </form>
+                </div>
+
+                <div class="text-center num tb_item_price">{{ item.price }}
+                    <span class="trans_ru">мнт.</span>
+                    <span class="trans_tr">mnt.</span>
+                </div>
+                <div class="text-center num tb_item_sum">{{ item.total_price }}
+                    <span class="trans_ru">мнт.</span>
+                    <span class="trans_tr">mnt.</span>
+                </div>
+
+                <div class="text-center tb_item_remove_btn">
+                    <div>
+                        <a class="text-center tb_item_remove_link" href="{% url 'cart:cart_remove' product.id %}">
+                            <i class="fa fa-trash fa-2x"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endwith %}
+            {% endfor %}
+
+            <div class="row footer_tr">
+                <div class="tb_item_total_price">
+                    <span class="trans_ru">Итого:</span>
+                    <span class="trans_tr">Jemi: </span>
+                    <span class="tb_item_cart_total_price">{{ cart.get_total_price }}
+                        <span class="trans_ru">мнт.</span>
+                    <span class="trans_tr">mnt.</span>
+                    </span>
+                    </td>
+                </div>
+            </div>
+            {% else %}
+            <div class="row body_tr">
+                <p class="empty_cart_text">
+                    <span class="trans_ru">Ваша корзинка пуста:</span>
+                    <span class="trans_tr">Sizin sebetiniz bosh</span>
+
+                </p>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-12 col-md-6 btn contionue_shoping_btn">
+                    <a href="{% url 'shop:product_list' %}">
+                        <span class="trans_ru">Продолжть покупку</span>
+                        <span class="trans_tr">Sowdany dowam et</span>
+
+                    </a>
+                </div>
+                {% if cart %}
+                <div class=" col-sm-12 col-md-6 btn end_shoping_btn">
+                    <a href="{% url 'orders:order_create' %}">
+                        <span class="trans_ru">Офориление заказа</span>
+                        <span class="trans_tr">Sargydynyz resmilesdirin</span>
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+        {% endblock %}

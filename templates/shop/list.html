@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block title %}
+{% if category %}{{ category.name }}{% else %} Products {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div id="content">
+    <div class="container">
+        <div class="row">
+            <div class="float-left col-md-3 col-sm-12 ">
+                <h3 class="text-center title_of_category">
+                    <span class="trans_ru">Категории</span>
+                    <span class="trans_tr">Kategorialar</span>
+                </h3>
+                <div class="nav flex-column nav-pills text-center"
+                     aria-orientation="vertical">
+                    <a class="nav-link  {% if not category %} active {% endif %}" href="{% url 'shop:product_list' %}"
+                       role="tab">
+                        <span class="trans_ru">Все продукты</span>
+                        <span class="trans_tr">Umumy gornus</span>
+                    </a>
+                    {% for c in categories %}
+                    <a class="nav-link{% if category.slug == c.slug %} active {% endif %}"
+                       href="{{ c.get_absolute_url }}" role="tab">
+                        {{ c.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class="adver_container">
+                    <div class="advertisement">
+                        <div class="adver_image_del">
+                            <img src="{% static '/img/delivary.jpg' %}" alt="">
+                        </div>
+                        <div class="adver_text_block">
+                            <span><b>Доставка курьером</b></span>
+                            <span class="red">Сумма больше 100 Мнт</span>
+                            <span>Доставка бесплатно</span>
+                        </div>
+                    </div>
+                    <div class="advertisement">
+                        <div class="adver_image_del">
+                            <img src="{% static '/img/awchy.jpg' %}" alt="">
+                        </div>
+                        <div class="adver_text_block">
+                            <span><b>Кафе Авчы </b></span><br>
+                            <span class="red">Город Туркменадат</span>
+                            <span>Доставка еды</span>
+                            <a href="#" class="btn_oyden_com "><span>Перейти по ссылке</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="float-right col-md-9 col-sm-12 ">
+                <div class="row">
+                    <div class="col">
+                        <h1 class="text-center title_of_products">
+                            {% if category %}{{ category.name }}{% else %}
+                                <span class="trans_ru">Все продукты</span>
+                                <span class="trans_tr">Ahli harytlar</span>
+                            {% endif %}
+                        </h1>
+                    </div>
+                </div>
+                <div class="row cards_row flex-fraw">
+                    {% for product in page_obj %}
+                    <div class="card_colm">
+                        <div class="card">
+                            <div class="card_image">
+                                <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/no-image.jpeg' %} {% endif %}"
+                                     class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <div>
+                                    <span class="red">{{ product.price }}
+                                        <small class="trans_ru">Мнт</small>
+                                        <small class="trans_tr">Mnt</small>
+                                    </span>
+                                    <span>{{ product.unit }}</span>
+                                </div>
+                                <a href="{{ product.get_absolute_url }}"
+                                   class="btn btn-primary btn_oyden_com">
+                                    <small class="trans_ru">Купить</small>
+                                    <small class="trans_tr">Satyn al</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

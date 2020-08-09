@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Оформить заказ
+{% endblock %}
+
+{% block content %}
+    <div class="order_title_h3">
+        <h3 class="titl_of_order_cretae">
+            <span class="trans_ru">Офориление заказа</span>
+            <span class="trans_tr">Sargydynyz resmilesdirin</span>
+
+        </h3>
+    </div>
+    <div class="row">
+        <div class="orders_list">
+            <span class="trans_ru">Перечень заказов</span>
+            <span class="trans_tr">Sargydyn sanawy</span>
+
+        </div>
+    </div>
+    <div>
+        <div class="col-12 order_info">
+            <ol>
+                {% for item in cart %}
+                <li>
+                    {{ item.quantity }}
+                        <span class="trans_ru">шт.</span>
+                        <span class="trans_tr">sany.</span>
+                    {{ item.product.name }}
+                    <span>${{ item.total_price }}</span>
+                </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    <div class="col-12 total_price order_info">
+        <p>
+            <span class="trans_ru">Итого: </span>
+            <span class="trans_tr">Jemi: </span>
+            {{ cart.get_total_price }}
+            <span class="trans_ru">Мнт</span>
+            <span class="trans_tr">Mnt</span>
+        </p>
+    </div>
+
+<div class="row">
+    <div class="col-12 orders_list title_of_forms">
+        <span class="trans_ru">Служба доставки</span>
+        <span class="trans_tr">Eltip bermek hyzmaty</span>
+
+    </div>
+</div>
+    <div class="col-12 order_info">
+        <div class="img_delivary_car_container">
+            <img class="img_delivary_car" src="{% static 'img/delivary.jpg' %}" alt="">
+        </div>
+        <span class="delivary_create_text">
+            <span class="trans_ru">Доставка курером</span>
+            <span class="trans_tr">Kuryer eltip beryar</span>
+
+          </span>
+        <small class="delivery_span">
+            <span class="trans_ru">Стоимость доставки 5мнт по городу</span>
+            <span class="trans_tr">Eltip bermek hyzmatynyn nyrhy "5mnt" shaher ichinde</span>
+             <br>
+            <span class="trans_ru">Сумма при выше <span class="red">150мнт.</span> доставка бесплатно.</span>
+            <span class="trans_tr"><span class="red">"150mnt."</span> gechende eltip bermek hyzmaty mugt bolyar</span>
+
+        </small>
+    </div>
+</div>
+<div class="row">
+    <div class="orders_list title_of_forms">
+        <span class="trans_ru">Информация для доставки заказа</span>
+        <span class="trans_tr">Sovdany eltip bermek uchin maglumat</span>
+    </div>
+</div>
+<div class="container_for_forms">
+    <form class="address_form" method="post">
+        {% csrf_token %}
+        <div class="form-row">
+            <label for="{{form.first_name.get_label_id}}"></label>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.first_name|as_crispy_field }}
+            </div>
+
+            <div class="form-group col-md-6 mb-0">
+                {{ form.last_name|as_crispy_field }}
+            </div>
+        </div>
+        {{ form.email|as_crispy_field }}
+        {{ form.address|as_crispy_field }}
+        <div class="form-row">
+            <div class="form-group col-md-6 mb-0">
+                {{ form.city|as_crispy_field }}
+            </div>
+            <div class="form-group col-md-6 mb-0">
+                {{ form.postal_code|as_crispy_field }}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <span class="trans_ru">Оформит заказ</span>
+            <span class="trans_tr">Harydy resmileshdir</span>
+        </button>
+    </form>
+</div>
+{% endblock %}

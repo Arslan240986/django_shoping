@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+{{ product.name }}
+{% endblock %}
+{% block content %}
+<div class="container card_container">
+    <h4>< <a href="{{ product.category.get_absolute_url }}">
+        <span class="trans_ru">Назад в :</span>
+        <span class="trans_tr">Yza :</span>
+        {{product.category }}
+    </a></h4>
+
+    <div class="product_detail_card">
+        <div class="product_img_container">
+            <img src="{% if product.image %}{{ product.image.url }}{% else %} {% static 'img/no_image.png' %}{% endif %}">
+        </div>
+
+        <div class="product_body_container">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ product.price }}
+                <small class="trans_ru">мнт</small>
+                <small class="trans_tr">mnt</small>
+            </p>
+            <p>{{ product.description }}</p>
+            <form action="{% url 'cart:cart_add' product.id %}" method="post">
+                {% csrf_token %}
+                {{ cart_product_form }}<br><br>
+                <input class="btn btn-danger trans_ru" type="submit" value="Добавить в карту">
+                <input class="btn btn-danger trans_tr" type="submit" value="Sebede gosh">
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
